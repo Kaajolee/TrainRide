@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float gravity = -9.81f;
     public float jumpForce = 1.5f;
 
+
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
