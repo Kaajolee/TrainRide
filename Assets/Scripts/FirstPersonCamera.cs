@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using PlayerInputActionsNamespace;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,7 +19,7 @@ public class FirstPersonCamera : MonoBehaviour
 
     [Header("Cursor")]
     public bool lockCursorOnStart = true;
-    public KeyCode unlockCursorKey = KeyCode.Escape;
+    public Key unlockCursorKey = Key.Escape;
 
     private PlayerInputActions inputActions;
     private Vector2 lookInput;
@@ -36,6 +37,10 @@ public class FirstPersonCamera : MonoBehaviour
         inputActions.Enable();
         inputActions.Player.Look.performed += OnLook;
         inputActions.Player.Look.canceled += OnLook;
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Debug.Log("test");
+        }
     }
 
     void OnDisable()
@@ -87,9 +92,13 @@ public class FirstPersonCamera : MonoBehaviour
 
     void HandleCursor()
     {
-        if (Input.GetKeyDown(unlockCursorKey))
+        var kb = Keyboard.current;
+        var mouse = Mouse.current;
+
+        if (kb != null && kb[unlockCursorKey].wasPressedThisFrame)
             SetCursorLocked(false);
-        else if (Cursor.lockState != CursorLockMode.Locked && Input.GetMouseButtonDown(0))
+        else if (Cursor.lockState != CursorLockMode.Locked &&
+                 mouse != null && mouse.leftButton.wasPressedThisFrame)
             SetCursorLocked(true);
     }
 
